@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public enum PooledObjectName
+public class OrderCompletedEvent : UnityEvent<int>
 {
-    Cake = 0,
-    CandyApple = 1
 }

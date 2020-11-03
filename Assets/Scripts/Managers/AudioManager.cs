@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Candy : MonoBehaviour
+public class AudioManager : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -14,10 +14,5 @@ public class Candy : MonoBehaviour
     void Update()
     {
         
-    }
-
-    public void Initialize()
-    {
-
     }
 }

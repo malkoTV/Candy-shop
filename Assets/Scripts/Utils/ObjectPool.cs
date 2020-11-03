@@ -40,9 +40,34 @@ public class ObjectPool : MonoBehaviour
     static GameObject GetNewObject(PooledObjectName name)
     {
         GameObject obj = GameObject.Instantiate(prefabs[name]);
-        obj.GetComponent<Candy>().Initialize();
+        obj.GetComponent<Candy>().Initialize(name);
         obj.SetActive(false);
-        GameObject.DontDestroyOnLoad(obj);
+        //GameObject.DontDestroyOnLoad(obj);
         return obj;
+    }
+
+    public static GameObject GetPooledObject(PooledObjectName name)
+    {
+        List<GameObject> pool = pools[name];
+        GameObject obj;
+
+        if(pool.Count > 0)
+        {
+            obj = pool[pool.Count - 1];
+            pool.RemoveAt(pool.Count - 1);
+        }
+        else
+        {
+            pool.Capacity++;
+            obj = GetNewObject(name);
+        }
+        return obj;
+    }
+
+    public static void ReturnPooledObject(PooledObjectName name,
+        GameObject obj)
+    {
+        obj.GetComponent<Candy>().Inactive();
+        pools[name].Add(obj);
     }
 }
