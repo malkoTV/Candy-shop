@@ -7,7 +7,7 @@ public class Customer : IntEventInvoker
 {
     private List<PooledObjectName> order;
     private List<GameObject> orderObj;
-    private static Dictionary<PooledObjectName, Sprite> sprites = new Dictionary<PooledObjectName, Sprite>();
+    //private static Dictionary<PooledObjectName, Sprite> sprites = new Dictionary<PooledObjectName, Sprite>();
     private Sprite sprite;
     private int coins = 0;
     private static int customersLost = 0;

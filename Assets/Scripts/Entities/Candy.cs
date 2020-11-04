@@ -29,6 +29,7 @@ public class Candy : MonoBehaviour
     public void Initialize(PooledObjectName name)
     {
         candyName = name;
+        GetComponent<SpriteRenderer>().sprite = ObjectPool.Sprites[candyName];
         rb2d = GetComponent<Rigidbody2D>();
         //add code to determine if a candy has superpower
         speed = GlobalVariables.CandySpeed;

@@ -5,25 +5,29 @@ using System;
 
 public class ObjectPool : MonoBehaviour
 {
-    static Dictionary<PooledObjectName, GameObject> prefabs;
-    static Dictionary<PooledObjectName, List<GameObject>> pools;
+    static GameObject prefab;
+    static Dictionary<PooledObjectName, Sprite> sprites;
+    static List<GameObject> pool;
+
+    public static Dictionary<PooledObjectName, Sprite> Sprites
+    {
+        get { return sprites; }
+    }
 
     public static void Initialize()
     {
-        prefabs = new Dictionary<PooledObjectName, GameObject>();
-        pools = new Dictionary<PooledObjectName, List<GameObject>>();
+        PooledObjectName objName;
+
+        objName = PooledObjectName.Cake;
+        prefab = (GameObject)Resources.Load("" + objName);
+        sprites = new Dictionary<PooledObjectName, Sprite>();
+        pool = new List<GameObject>(GlobalVariables.PoolCapacity);
 
         LoadSprites();
-
-        var values = Enum.GetValues(typeof(PooledObjectName));
-        foreach (var item in values)
+        
+        for (int i = 0; i < GlobalVariables.PoolCapacity; i++)
         {
-            PooledObjectName objName = (PooledObjectName)Convert.ChangeType(item, typeof(PooledObjectName));
-            pools.Add(objName, new List<GameObject>(GlobalVariables.PoolCapacity));
-            for(int i = 0; i < GlobalVariables.PoolCapacity; i++)
-            {
-                pools[objName].Add(GetNewObject(objName));
-            }
+            pool.Add(GetNewObject(objName));
         }
     }
 
@@ -33,13 +37,13 @@ public class ObjectPool : MonoBehaviour
         foreach (var item in values)
         {
             PooledObjectName objName = (PooledObjectName)Convert.ChangeType(item, typeof(PooledObjectName));
-            prefabs.Add(objName, Resources.Load<GameObject>("" + objName));
+            sprites.Add(objName, Resources.Load<Sprite>("Sprites/" + objName));
         }
     }
 
     static GameObject GetNewObject(PooledObjectName name)
     {
-        GameObject obj = GameObject.Instantiate(prefabs[name]);
+        GameObject obj = GameObject.Instantiate(prefab);
         obj.GetComponent<Candy>().Initialize(name);
         obj.SetActive(false);
         //GameObject.DontDestroyOnLoad(obj);
@@ -48,7 +52,6 @@ public class ObjectPool : MonoBehaviour
 
     public static GameObject GetPooledObject(PooledObjectName name)
     {
-        List<GameObject> pool = pools[name];
         GameObject obj;
 
         if(pool.Count > 0)
@@ -68,6 +71,6 @@ public class ObjectPool : MonoBehaviour
         GameObject obj)
     {
         obj.GetComponent<Candy>().Inactive();
-        pools[name].Add(obj);
+        pool.Add(obj);
     }
 }
