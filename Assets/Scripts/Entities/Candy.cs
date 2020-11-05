@@ -65,7 +65,7 @@ public class Candy : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("Customer"))
         {
-            Debug.Log("Customer collision");
+            //Debug.Log("Customer collision");
             Destroy(gameObject);
             //ObjectPool.ReturnPooledObject(candyName, gameObject);
         }

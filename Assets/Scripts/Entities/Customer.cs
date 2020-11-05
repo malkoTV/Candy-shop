@@ -80,6 +80,11 @@ public class Customer : IntEventInvoker
             if (order.Items.Contains(candyName))
             {
                 order.RemoveItem(candyName);
+                AudioManager.Play(AudioClipName.RightFood);
+            }
+            else
+            {
+                AudioManager.Play(AudioClipName.WrongFood);
             }
         }
         else if(other.gameObject.CompareTag("Player"))

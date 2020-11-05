@@ -7,6 +7,7 @@ public class CandySpawner : MonoBehaviour
 {
     Timer spawnTimer;
     List<GameObject> candies = new List<GameObject>();
+    int[] values;
 
     void Awake()
     {
@@ -15,6 +16,8 @@ public class CandySpawner : MonoBehaviour
 
     public void Initialize()
     {
+        values = (int[])Enum.GetValues(typeof(PooledObjectName));
+
         spawnTimer = gameObject.AddComponent<Timer>();
         spawnTimer.Duration = GlobalVariables.CandySpawnDelay;
         spawnTimer.AddTimerFinishedEventListener(SpawnNewObject);
@@ -24,14 +27,18 @@ public class CandySpawner : MonoBehaviour
     void SpawnNewObject()
     {
         spawnTimer.Run();
-        int[] values = (int[])Enum.GetValues(typeof(PooledObjectName));
-        int i = UnityEngine.Random.Range(values[0], values[values.Length - 1] + 1);
-        PooledObjectName objName = (PooledObjectName)Enum.Parse(typeof(PooledObjectName), "" + i);
-        GameObject candy = ObjectPool.GetPooledObject(objName);
+        if (candies.Count < GlobalVariables.ContainerMax)
+        {
+            int i = UnityEngine.Random.Range(values[0], values[values.Length - 1] + 1);
+            PooledObjectName objName = (PooledObjectName)Enum.Parse(typeof(PooledObjectName), "" + i);
+            GameObject candy = ObjectPool.GetPooledObject(objName);
 
-        candy.transform.position = transform.position;
-        candy.SetActive(true);
-        candy.GetComponent<Rigidbody2D>().gravityScale = 1;
+            candy.transform.position = transform.position;
+            candy.SetActive(true);
+            candy.GetComponent<Rigidbody2D>().gravityScale = 1;
+
+            candies.Add(candy);
+        }
     }
 
 }

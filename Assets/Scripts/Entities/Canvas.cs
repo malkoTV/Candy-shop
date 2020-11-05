@@ -30,9 +30,6 @@ public class Canvas : MonoBehaviour
         scoreText.GetComponent<Text>().text = totalCoins.ToString();
         if(totalCoins >= GlobalVariables.WinScore)
         {
-            //invoke events for all spawners
-            //invoke event for player to stop shooting
-            //invoke event for all
             GameOver();
         }
     }
@@ -46,13 +43,14 @@ public class Canvas : MonoBehaviour
     void GameOver()
     {
         Time.timeScale = 0f;
-
         pauseMenu.SetActive(true);
+        AudioManager.PlayLoop(LoopAudioName.GameOver);
     }
 
     public void RestartGame()
     {
         Time.timeScale = 1f;
+        AudioManager.Play(AudioClipName.ButtonClick);
         SceneManager.LoadScene("PlayScene");
     }
 }

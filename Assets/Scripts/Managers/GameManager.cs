@@ -24,4 +24,9 @@ public class GameManager : MonoBehaviour
         Customer.OrderBackground = (GameObject)Resources.Load("Order canvas");
         Order.OrderPrefab = (GameObject)Resources.Load("Order prefab");
     }
+
+    void Start()
+    {
+        AudioManager.PlayLoop(LoopAudioName.BackgroundMusic);
+    }
 }
