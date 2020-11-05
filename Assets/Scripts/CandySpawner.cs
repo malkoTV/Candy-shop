@@ -34,8 +34,4 @@ public class CandySpawner : MonoBehaviour
         candy.GetComponent<Rigidbody2D>().gravityScale = 1;
     }
 
-    private void PickUpObject(GameObject obj)
-    {
-
-    }
 }

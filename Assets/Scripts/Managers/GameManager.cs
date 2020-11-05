@@ -6,7 +6,6 @@ public class GameManager : MonoBehaviour
 {
     private List<CandySpawner> spawners;
 
-    // Start is called before the first frame update
     void Awake()
     {
         GlobalVariables.Initialize();
@@ -22,12 +21,7 @@ public class GameManager : MonoBehaviour
 
         EventManager.Initialize();
 
+        Customer.OrderBackground = (GameObject)Resources.Load("Order canvas");
         Order.OrderPrefab = (GameObject)Resources.Load("Order prefab");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
