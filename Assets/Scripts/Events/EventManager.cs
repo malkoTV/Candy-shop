@@ -28,7 +28,6 @@ public static class EventManager
 		// create empty lists for all the dictionary entries
 		foreach (EventName name in Enum.GetValues(typeof(EventName)))
         {
-            Debug.Log("Enum vals " + name);
 			if (!invokers.ContainsKey(name))
             {
 				invokers.Add(name, new List<IntEventInvoker>());
@@ -40,9 +39,7 @@ public static class EventManager
 				listeners[name].Clear();
 			}
 		}
-
-        Debug.Log("Initialize event manager worked");
-    }
+	}
 		
 	/// <summary>
 	/// Adds the given invoker for the given event name

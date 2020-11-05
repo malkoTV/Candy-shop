@@ -4,28 +4,18 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 
-//[RequireComponent(typeof(GUIText))]
 public class Order : MonoBehaviour
 {
     private Transform target;  // Object that this label should follow
     private static Vector3 offset = Vector3.up;    // Units in world space to offset; 1 unit above object by default
-    Camera cam;
-    Transform camTransform;
+    private Camera cam;
+    private Vector3 pos;
 
-    Vector3 pos;
+    private static GameObject orderPrefab;
 
-    private static Dictionary<PooledObjectName, Sprite> candySprites
-        = new Dictionary<PooledObjectName, Sprite>();
-
-    //use sprites from object pool
-    public static void LoadSprites()
+    public static GameObject OrderPrefab
     {
-        var values = Enum.GetValues(typeof(PooledObjectName));
-        foreach (var item in values)
-        {
-            PooledObjectName objName = (PooledObjectName)Convert.ChangeType(item, typeof(PooledObjectName));
-            candySprites.Add(objName, Resources.Load<Sprite>("Sprites/" + objName));
-        }
+        set { orderPrefab = value; }
     }
 
     public static Vector3 Offset
@@ -34,12 +24,9 @@ public class Order : MonoBehaviour
         set { offset = value; }
     }
 
-    private GameObject panel;
-
-    void Start()
+    void Awake()
     {
         cam = Camera.main;
-        camTransform = cam.transform;
     }
     
     public void Initialize(Transform target)
@@ -49,25 +36,35 @@ public class Order : MonoBehaviour
 
         //set background to size
         RectTransform rt = GetComponent<RectTransform>();
-        rt.sizeDelta = new Vector2(rt.sizeDelta.x * orders.Count, rt.sizeDelta.x);
 
-        //make it an if statement from -2 to +2 approx to position all the elements
-        foreach(PooledObjectName item in orders)
+        //determine offset for each item
+        Vector2 deltaPos = new Vector2(rt.sizeDelta.x, 0);
+        Vector2 startPos = new Vector2(
+            rt.position.x - (rt.sizeDelta.x * (int)(orders.Count / 2)), rt.position.y);
+        
+        if(orders.Count % 2 == 0)
         {
-            //instantiate
-            //offset position
-            //make a child
+            startPos.x += (deltaPos.x / 2);
         }
 
-        gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = candySprites[orders[0]];
-        panel = gameObject; 
+        rt.sizeDelta = new Vector2(rt.sizeDelta.x * orders.Count, rt.sizeDelta.x);
+
+        for (int i = 0; i < orders.Count; i++)
+        {
+            GameObject item = Instantiate(orderPrefab, startPos, transform.rotation, transform);
+            item.GetComponent<Image>().sprite = ObjectPool.Sprites[orders[i]];
+            RectTransform itemTr = item.GetComponent<RectTransform>();
+            itemTr.position = startPos;
+
+            startPos += deltaPos;
+        }
     }
 
     void Update()
     {
-        pos = cam.WorldToScreenPoint(camTransform.TransformPoint(target.position));
+        pos = cam.WorldToScreenPoint(cam.transform.TransformPoint(target.position));
         pos += offset;
-        panel.transform.position = pos;
+        gameObject.transform.position = pos;
     }    
 
     void RemoveItem()

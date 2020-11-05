@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
 
         EventManager.Initialize();
 
-        Order.LoadSprites();
+        Order.OrderPrefab = (GameObject)Resources.Load("Order prefab");
     }
 
     // Update is called once per frame

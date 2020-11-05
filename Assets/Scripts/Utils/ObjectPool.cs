@@ -24,7 +24,7 @@ public class ObjectPool : MonoBehaviour
         pool = new List<GameObject>(GlobalVariables.PoolCapacity);
 
         LoadSprites();
-        
+
         for (int i = 0; i < GlobalVariables.PoolCapacity; i++)
         {
             pool.Add(GetNewObject(objName));
@@ -54,16 +54,27 @@ public class ObjectPool : MonoBehaviour
     {
         GameObject obj;
 
-        if(pool.Count > 0)
+        if (pool.Count > 0)
         {
             obj = pool[pool.Count - 1];
             pool.RemoveAt(pool.Count - 1);
+
+            if (obj != null)
+            {
+                obj.GetComponent<Candy>().Initialize(name);
+            }
         }
         else
         {
             pool.Capacity++;
             obj = GetNewObject(name);
         }
+
+        if(obj == null)
+        {
+            obj = GetPooledObject(name);
+        }
+
         return obj;
     }
 

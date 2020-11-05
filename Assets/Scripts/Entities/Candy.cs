@@ -15,24 +15,22 @@ public class Candy : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
-    {
-        
+    void Awake()
+    {        
+        rb2d = GetComponent<Rigidbody2D>();
+        speed = GlobalVariables.CandySpeed;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void Initialize(PooledObjectName name)
     {
         candyName = name;
         GetComponent<SpriteRenderer>().sprite = ObjectPool.Sprites[candyName];
-        rb2d = GetComponent<Rigidbody2D>();
-        //add code to determine if a candy has superpower
-        speed = GlobalVariables.CandySpeed;
     }
 
     public void Active()
@@ -57,7 +55,6 @@ public class Candy : MonoBehaviour
         ObjectPool.ReturnPooledObject(candyName, this.gameObject);
     }
     
-
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -66,7 +63,7 @@ public class Candy : MonoBehaviour
             Destroy(gameObject);
             //ObjectPool.ReturnPooledObject(candyName, gameObject);
         }
-        else if(other.gameObject.CompareTag("Customer"))
+        else if (other.gameObject.CompareTag("Customer"))
         {
             Debug.Log("Customer collision");
             Destroy(gameObject);
