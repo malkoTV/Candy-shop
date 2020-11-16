@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class MenuManager : MonoBehaviour
 {
     bool paused = false;
+    [SerializeField]
+    private GameObject pauseText;
 
    void Start()
    {
@@ -25,12 +27,14 @@ public class MenuManager : MonoBehaviour
             AudioManager.Play(AudioClipName.ButtonClick);
             Time.timeScale = 0f;
             paused = true;
+            pauseText.SetActive(true);
         }
         else
         {
             AudioManager.Play(AudioClipName.ButtonClick);
             Time.timeScale = 1f;
             paused = false;
+            pauseText.SetActive(false);
         }
     }
 }

@@ -11,17 +11,16 @@ public class Player : MonoBehaviour
     private bool canShoot = true;
     Timer cooldownTimer;
 
+    private SpriteRenderer candyShoot;
+
     //private Candy candyObjScript;
     private PooledObjectName candyName;
-    
-    public PooledObjectName CandyName
-    {
-        set { candyName = value; }
-    }
 
     // Start is called before the first frame update
     void Start()
     {
+        candyShoot = gameObject.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>();
+        candyShoot.sprite = ObjectPool.Sprites[candyName];
         cooldownTimer = gameObject.AddComponent<Timer>();
         cooldownTimer.Duration = GlobalVariables.ShootSpeed;
         boundary = GlobalVariables.Boundary;
@@ -32,6 +31,12 @@ public class Player : MonoBehaviour
     {
         Movement();
         Shoot();
+    }
+
+    public void CandyPicked(PooledObjectName name)
+    {
+        candyName = name;
+        candyShoot.sprite = ObjectPool.Sprites[candyName];
     }
 
     void Movement()

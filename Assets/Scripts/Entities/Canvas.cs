@@ -17,17 +17,14 @@ public class Canvas : MonoBehaviour
         EventManager.AddListener(EventName.OrderCompletedEvent, CoinsAdded);
         EventManager.AddListener(EventName.GameLostEvent, GameLost);
 
-        scoreText = gameObject.transform.GetChild(0).gameObject;
-
-        scoreText.GetComponent<Text>().text = totalCoins.ToString();
-        pauseMenu = gameObject.transform.GetChild(1).gameObject;
+        scoreText.GetComponent<Text>().text = "Coins: " + totalCoins.ToString();
     }
 
     //make unity int event
     void CoinsAdded(int coins)
     {
         totalCoins += coins;
-        scoreText.GetComponent<Text>().text = totalCoins.ToString();
+        scoreText.GetComponent<Text>().text = "Coins: " + totalCoins.ToString();
         if(totalCoins >= GlobalVariables.WinScore)
         {
             GameOver();

@@ -9,15 +9,14 @@ public static class GlobalVariables
     private static int candySpeed = 20;
     private static float shootSpeed = 0.5f;
     private static int candySpawnDelay = 4;
-    private static float customerSpawnDelay = 3f;
-    private static float customerSpeed = 1f;
-    private static float forceDelay = 3f;
-    private static int orderMax = 5;
+    private static float customerSpawnDelay = 5f;
+    private static float customerSpeed = 1.5f;
+    private static int orderMax = 3;
     private static float boundary = 6f;
     private static int price = 10;
-    private static int winScore = 10;
+    private static int winScore = 150;
     private static int customersLeft = 20;
-    private static int containerMax = 10;
+    private static int containerMax = 8;
 
     private static GameObject canvasObj;
 
@@ -90,11 +89,6 @@ public static class GlobalVariables
     public static float CustomerSpeed
     {
         get { return customerSpeed; }
-    }
-
-    public static float ForceDelay
-    {
-        get { return forceDelay; }
     }
 
     public static int OrderMax

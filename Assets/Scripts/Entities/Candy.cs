@@ -59,7 +59,7 @@ public class Candy : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            other.gameObject.GetComponent<Player>().CandyName = candyName;
+            other.gameObject.GetComponent<Player>().CandyPicked(candyName);
             Destroy(gameObject);
             //ObjectPool.ReturnPooledObject(candyName, gameObject);
         }
